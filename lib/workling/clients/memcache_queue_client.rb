@@ -34,7 +34,7 @@ module Workling
       def connect
         @queueserver_urls = Workling.config[:listens_on].split(',').map { |url| url ? url.strip : url }
         options = [@queueserver_urls, Workling.config[:memcache_options]].compact
-        self.connection = MemcacheQueueClient.memcache_client_class.new(*options)
+        self.connection = self.memcache_client_class.new(*options)
         
         raise_unless_connected!
       end
