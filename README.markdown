@@ -181,6 +181,26 @@ Then start the workling Client:
 
 You're good. 
 
+# Using Starling Priority Queue
+
+Starling priority queue provides the ability to give priority to each item in your queue. To get started, install starling:
+
+  gem sources -a http://gems.github.com/ (if necessary)
+  sudo gem install starling-starling
+
+Configure the ClientRunner as follows:
+
+  Workling::Remote.dispatcher = Workling::Remote::Runners::ClientRunner.new
+  Workling::Remote.dispatcher.client = Workling::Clients::StarlingPriorityQueueClient.new
+  
+You will now be able to call workers with a priority option. For example,
+
+  SampleWorker.async_download({ :task_id => 5, :priority => 1})
+  SampleWorker.async_download({ :task_id => 6, :priority => 2})
+  SampleWorker.async_download({ :task_id => 7)
+
+In this example, task_id 7 will be priority 0 and will be processed first, then task_id 5, and finally task_id 7.
+
 # Using RudeQueue
 
 RudeQueue is a Starling-like Queue that runs on top of your database and requires no extra processes. Use this if you don't need very fast job processing and want to avoid managing the extra process starling requires.
@@ -378,5 +398,6 @@ Anybody who contributes fixes (with tests), or new functionality (whith tests) w
 * Nick Plante (zapnap)
 * Brent
 * Evan Light (elight)
+* Ben Curren (bcurren)
 
 Copyright (c) 2008 play/type GmbH, released under the MIT license
